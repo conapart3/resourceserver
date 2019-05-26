@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Http, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Foo } from '../../../oauthapp/src/app/app.service';
 // Note - I followed instruction here: https://github.com/manfredsteyer/angular-oauth2-oidc
