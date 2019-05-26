@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponentComponent } from './home-component/home-component.component';
-import { UserComponentComponent } from './user-component/user-component.component';
+import { RouterModule } from '@angular/router';
+import { FooComponentComponent } from './foo-component/foo-component.component';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -14,11 +16,15 @@ import { UserComponentComponent } from './user-component/user-component.componen
     AppComponent,
     LoginComponentComponent,
     HomeComponentComponent,
-    UserComponentComponent
+    FooComponentComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot([
+      { path: "", component: HomeComponentComponent},
+      { path: "login", component: LoginComponentComponent }])
   ],
   providers: [],
   bootstrap: [AppComponent]

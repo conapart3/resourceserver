@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.conal"})
+@ComponentScan({"com.conal.controller"})
 public class ResourceWebConfig implements WebMvcConfigurer
 {
 }
