@@ -1,8 +1,11 @@
 // contains logic for server interactions
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Http, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Cookie } from 'ng2-cookies';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 export class Foo {
   constructor(
