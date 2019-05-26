@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AuthServerOAuth2Config extends GlobalMethodSecurityConfiguration
+public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguration
 {
     @Autowired
     private Environment env;
@@ -48,12 +48,13 @@ public class AuthServerOAuth2Config extends GlobalMethodSecurityConfiguration
         return new JdbcTokenStore(dataSource());
     }
 
-    // Instead of using a TokenStore in our Resource Server, we can use RemoteTokeServices:
+    // Instead of using a TokenStore in our Resource Server, we can use RemoteTokenServices:
     @Primary
     @Bean
     public RemoteTokenServices tokenService()
     {
         RemoteTokenServices tokenService = new RemoteTokenServices();
+        //todo change url to match auth server
         tokenService.setCheckTokenEndpointUrl(
                 "http://localhost:8080/spring-security-oauth-server/oauth/check_token");
         tokenService.setClientId("fooClientIdPassword");
@@ -65,6 +66,7 @@ public class AuthServerOAuth2Config extends GlobalMethodSecurityConfiguration
     //The Authorization Server can use any TokenStore type [JdbcTokenStore, JwtTokenStore, …] – this won’t affect the RemoteTokenService or Resource server.
 
     // i think this is for rreading the PreAuthorize values e.g. "#oath2.hasScope('read')"
+    // it translates the security expressions above into method calls
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         return new OAuth2MethodSecurityExpressionHandler();

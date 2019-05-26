@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 
-export class User {
+export class Foo {
   constructor(
     public id: number,
-    public name: string,
-    public email: string ) {
+    public name: string) {
   }
 }
 
@@ -44,6 +43,7 @@ export class AppService {
     });
     let options = new RequestOptions({ headers: headers });
 
+    // todo make sure this is in sync with what it's supposed to be!
     this._http.post('http://localhost:8081/spring-security-oauth-server/oauth/token',
       params.toString(), options)
       .map(res => res.json())
@@ -60,7 +60,7 @@ export class AppService {
   }
 
   // to get a Foo object from server using its ID
-  getResource( resourceUrl ): Observable<User> {
+  getResource( resourceUrl ): Observable<Foo> {
     var headers = new Headers({
       'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
