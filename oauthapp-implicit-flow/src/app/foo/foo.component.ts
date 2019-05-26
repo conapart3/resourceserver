@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { AppService, Foo } from '../app.service';
-import { error } from 'util';
+import { AppService, Foo } from '../../../../oauthapp/src/app/app.service';
 
 @Component({
-  selector: 'foo-details',
-  providers: [ AppService ],
-  template: './foo-component.component.html'
+  selector: 'app-foo',
+  templateUrl: './foo.component.html',
+  styleUrls: [ './foo.component.css' ]
 })
-export class FooComponentComponent {
+export class FooComponent {
 
   public foo = new Foo(1, "sample foo");
   private foosUrl = "http://localhost:8082/spring-security-oauth-resource/foos/";
@@ -20,5 +19,4 @@ export class FooComponentComponent {
       .subscribe(data => this.foo = data,
         error => this.foo.name = "Error");
   }
-
 }
