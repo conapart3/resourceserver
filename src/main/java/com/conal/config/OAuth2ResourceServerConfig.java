@@ -1,5 +1,6 @@
 package com.conal.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Slf4j
 public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguration
 {
     @Autowired
@@ -33,6 +35,7 @@ public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguratio
     @Bean
     public DataSource dataSource()
     {
+        log.info("DataSource bean initializing.");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -45,6 +48,7 @@ public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguratio
     @Bean
     public TokenStore tokenStore()
     {
+        log.info("TokenStore bean initializing.");
         return new JdbcTokenStore(dataSource());
     }
 
@@ -53,10 +57,10 @@ public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguratio
     @Bean
     public RemoteTokenServices tokenService()
     {
+        log.info("TokenService bean initializing.");
         RemoteTokenServices tokenService = new RemoteTokenServices();
         //todo change url to match auth server
-        tokenService.setCheckTokenEndpointUrl(
-                "http://localhost:8080/spring-security-oauth-server/oauth/check_token");
+        tokenService.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
         tokenService.setClientId("fooClientIdPassword");
         tokenService.setClientSecret("secret");
         return tokenService;
@@ -65,7 +69,7 @@ public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguratio
     //The can be found at AuthorizationServerBaseURL +”/oauth/check_token“
     //The Authorization Server can use any TokenStore type [JdbcTokenStore, JwtTokenStore, …] – this won’t affect the RemoteTokenService or Resource server.
 
-    // i think this is for rreading the PreAuthorize values e.g. "#oath2.hasScope('read')"
+    // i think this is for reading the PreAuthorize values e.g. "#oath2.hasScope('read')"
     // it translates the security expressions above into method calls
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
